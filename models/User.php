@@ -2,69 +2,54 @@
 
 class User {
 
-    private $user_id;
-    private $name;
-    private $email;
-    private $password;
-    private $phone;
-    private $role;
-    private $created_at;
+    private $conn;
+    private $table = "users";
 
-    // Constructor
-    public function __construct($user_id, $name, $email, $password, $phone, $role, $created_at = null) {
-
-        $this->user_id = $user_id;
-        $this->name = $name;
-        $this->email = $email;
-        $this->password = $password;
-        $this->phone = $phone;
-        $this->role = $role;
-        $this->created_at = $created_at;
+    public function __construct($conn){
+        $this->conn = $conn;
     }
 
-    // Getter
-    public function getId() {
-        return $this->user_id;
+    // Lấy tất cả user
+     public function getAllUsers() {
+        $query = "SELECT * FROM " . $this->table;
+        $result = mysqli_query($this->conn, $query);
+        return $result;
     }
 
-    public function getName() {
-        return $this->name;
+    // Lấy user theo id
+    public function getUserById($id){
+
+        $sql = "SELECT * FROM " . $this->table . " WHERE id = $id";
+        $result = mysqli_query($this->conn, $sql);
+
+        return mysqli_fetch_assoc($result);
     }
 
-    public function getEmail() {
-        return $this->email;
+    // Thêm user
+    public function createUser($name, $email){
+
+        $sql = "INSERT INTO " . $this->table . " (name,email)
+                VALUES ('$name','$email')";
+
+        return mysqli_query($this->conn, $sql);
     }
 
-    public function getPhone() {
-        return $this->phone;
+    // Cập nhật user
+    public function updateUser($id, $name, $email){
+
+        $sql = "UPDATE " . $this->table . "
+                SET name='$name', email='$email'
+                WHERE id=$id";
+
+        return mysqli_query($this->conn, $sql);
     }
 
-    public function getRole() {
-        return $this->role;
-    }
+    // Xóa user
+    public function deleteUser($id){
 
-    // Setter
-    public function setName($name) {
-        $this->name = $name;
-    }
+        $sql = "DELETE FROM " . $this->table . " WHERE id=$id";
 
-    public function setEmail($email) {
-        $this->email = $email;
-    }
-
-    public function setPhone($phone) {
-        $this->phone = $phone;
-    }
-
-    // Hiển thị thông tin user
-    public function showInfo() {
-
-        echo "User ID: " . $this->user_id . "<br>";
-        echo "Name: " . $this->name . "<br>";
-        echo "Email: " . $this->email . "<br>";
-        echo "Phone: " . $this->phone . "<br>";
-        echo "Role: " . $this->role . "<br>";
-
+        return mysqli_query($this->conn, $sql);
     }
 
 }

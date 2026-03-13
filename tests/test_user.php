@@ -1,16 +1,14 @@
 <?php
 
+require_once "../config/database.php";
 require_once "../models/User.php";
 
-$user = new User(
-    1,
-    "Tin",
-    "tin@gmail.com",
-    "123456",
-    "0900000000",
-    "customer"
-);
+$user = new User($conn);
 
-$user->showInfo();
+$result = $user->getAllUsers();
+
+while($row = mysqli_fetch_assoc($result)){
+    echo $row['name'] . "<br>";
+}
 
 ?>
