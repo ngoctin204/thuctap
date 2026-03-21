@@ -1,7 +1,7 @@
 <?php
 
 // Kết nối database
-$conn = new mysqli("127.0.0.1", "root", "", "wordpress_db", 3307);
+$conn = new mysqli("127.0.0.1", "root", "", "wordpress_db", 3306);
 
 // Kiểm tra kết nối
 if ($conn->connect_error) {
